@@ -15,9 +15,9 @@ keywords = ["documentation", "rustdoc"]
 proc-macro = true
 
 [dependencies]
-syn = { version="1.0.72", default-features=false, features = ["full", "parsing", "proc-macro", "printing"] }
-quote = "1.0.9"
-proc-macro2 = "1.0.27"
+syn = { version="1.0.109", default-features=false, features = ["full", "parsing", "proc-macro", "printing"] }
+quote = "1.0.21"
+proc-macro2 = "1.0.74"
 base64 = "0.13"
 
 [workspace]

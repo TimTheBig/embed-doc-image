@@ -52,7 +52,7 @@
 //!
 //! ```rust
 //! // Import the attribute macro
-//! use embed_doc_image::embed_doc_image;
+//! use embed_doc_image::embed_image;
 //!
 //! /// Foos the bar.
 //! ///
@@ -68,9 +68,13 @@
 //! /// you match the label ("myimagelabel" or "foobaring" in this case) with the label in the
 //! /// below attribute macro.
 //! // Paths are always relative to the **crate root**
-//! #[embed_doc_image("myimagelabel", "images/foo.png")]
-//! #[embed_doc_image("foobaring", "assets/foobaring.jpg")]
+//! # #[doc = embed_image!("myimagelabel", "embed-doc-image-showcase/images/rustacean-flat-gesture-tiny.png")]
+//! # #[doc = embed_image!("foobaring", "embed-doc-image-showcase/images/dancing-ferris-tiny.gif")]
 //! fn foobar() {}
+//! ```
+//! ```ignore
+//! #[doc = embed_image!("myimagelabel", "images/foo.png")]
+//! #[doc = embed_image!("foobaring", "assets/foobaring.jpg")]
 //! ```
 //!
 //! And that's it! If you run `cargo doc`, you should hopefully be able to see your images
@@ -94,14 +98,9 @@
 //! // Important: note the blank line of documentation on each side of the image lookup table.
 //! // The "image lookup table" can be placed anywhere, but we place it here together with the
 //! // warning if the `doc-images` feature is not enabled.
-//! #![cfg_attr(feature = "doc-images",
-//! cfg_attr(all(),
-//! doc = ::embed_doc_image::embed_image!("myimagelabel", "images/foo.png"),
-//! doc = ::embed_doc_image::embed_image!("foobaring", "assets/foobaring.png")))]
-//! #![cfg_attr(
-//! not(feature = "doc-images"),
-//! doc = "**Doc images not enabled**. Compile with feature `doc-images` and Rust version >= 1.54 \
-//!            to enable."
+//! #![cfg_attr(doc,
+//! doc = embed_doc_image::embed_image!("myimagelabel", "images/foo.png"),
+//! doc = embed_doc_image::embed_image!("foobaring", "assets/foobaring.png")
 //! )]
 //! //!
 //! //! Let's use our images:
@@ -154,7 +153,7 @@
 //! [reddit comment from 2017][reddit-comment]. In short, Rustdoc allows images to be provided
 //! inline in the Markdown as `base64` encoded binary blobs in the following way:
 //!
-//! ```rust
+//! ```rust ignore
 //! ![Alt text][myimagelabel]
 //!
 //! [myimagelabel]: data:image/png;base64,BaSe64EnCoDeDdAtA
@@ -192,7 +191,6 @@
 //! [rustdoc-issue]: https://github.com/rust-lang/rust/issues/32104
 //! [issue-tracker]: https://github.com/Andlon/embed-doc-image/issues
 //! [reddit-comment]: https://www.reddit.com/r/rust/comments/5ljshj/diagrams_in_documentation/dbwg96q?utm_source=share&utm_medium=web2x&context=3
-//!
 //!
 
 use proc_macro::TokenStream;
