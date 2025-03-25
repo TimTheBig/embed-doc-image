@@ -82,14 +82,7 @@
 //!
 //! ## Embedding images in inner attribute documentation
 //!
-//! The ability for macros to do *anything* with *inner attributes* is very limited. In fact,
-//! before Rust 1.54 (which at the time of writing has not yet been released),
-//! it is for all intents and purposes non-existent. This also means that we can not directly
-//! use our approach to embed images in documentation for Rust < 1.54. However, we can make our
-//! code compile with Rust < 1.54 and instead inject a prominent message that some images are
-//! missing.
-//! `docs.rs`, which always uses a nightly compiler, will be able to show the images. We'll
-//! also locally be able to properly embed the images as long as we're using Rust >= 1.54
+//! We'll also locally be able to properly embed the images as long as we're using Rust >= 1.54
 //! (or nightly). Here's how you can embed images in crate-level or module-level documentation:
 //!
 //! ```rust
@@ -127,10 +120,6 @@
 //! - Locally:
 //!   - for Rust >= 1.54 with `--features doc-images`, the local documentation will
 //!       correctly render images.
-//!   - for Rust < 1.54: the local documentation will be missing some images, and will
-//!   contain a warning with instructions on how to enable proper image embedding.
-//!   - we can also use e.g. `cargo +nightly doc --features doc-images` to produce correct
-//!     documentation with a nightly compiler.
 //!
 //!
 //! # How it works
@@ -193,6 +182,7 @@
 //! [reddit-comment]: https://www.reddit.com/r/rust/comments/5ljshj/diagrams_in_documentation/dbwg96q?utm_source=share&utm_medium=web2x&context=3
 //!
 
+use base64::Engine;
 use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
 use std::fs::read;
@@ -201,8 +191,7 @@ use syn::parse;
 use syn::parse::{Parse, ParseStream};
 use syn::{
     Item, ItemConst, ItemEnum, ItemExternCrate, ItemFn, ItemForeignMod, ItemImpl, ItemMacro,
-    ItemMacro2, ItemMod, ItemStatic, ItemStruct, ItemTrait, ItemTraitAlias, ItemType, ItemUnion,
-    ItemUse,
+    ItemMod, ItemStatic, ItemStruct, ItemTrait, ItemTraitAlias, ItemType, ItemUnion, ItemUse,
 };
 
 #[derive(Debug)]
@@ -225,7 +214,7 @@ impl Parse for ImageDescription {
 
 fn encode_base64_image_from_path(path: &Path) -> String {
     let bytes = read(path).unwrap_or_else(|_| panic!("Failed to load image at {}", path.display()));
-    base64::encode(bytes)
+    base64::engine::general_purpose::STANDARD.encode(bytes)
 }
 
 fn determine_mime_type(extension: &str) -> String {
@@ -281,7 +270,7 @@ pub fn embed_image(item: TokenStream) -> TokenStream {
 
     // Ensure that the "image table" at the end is separated from the rest of the documentation,
     // otherwise the markdown parser will not treat them as a "lookup table" for the image data
-    let s = format!("\n \n {}", doc_string);
+    let s = format!("\n \n {doc_string}");
     let tokens = quote! {
         #s
     };
@@ -307,7 +296,6 @@ pub fn embed_doc_image(attr: TokenStream, item: TokenStream) -> TokenStream {
         | Item::ForeignMod(ItemForeignMod { ref mut attrs, .. })
         | Item::Impl(ItemImpl { ref mut attrs, .. })
         | Item::Macro(ItemMacro { ref mut attrs, .. })
-        | Item::Macro2(ItemMacro2 { ref mut attrs, .. })
         | Item::Mod(ItemMod { ref mut attrs, .. })
         | Item::Static(ItemStatic { ref mut attrs, .. })
         | Item::Struct(ItemStruct { ref mut attrs, .. })

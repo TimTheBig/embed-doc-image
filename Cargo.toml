@@ -1,8 +1,8 @@
 [package]
 name = "embed-doc-image"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Andreas Longva"]
-edition = "2018"
+edition = "2021"
 description = "Embed images in Rust documentation"
 license = "MIT"
 documentation = "https://docs.rs/embed-doc-image"
@@ -10,15 +10,16 @@ homepage = "https://github.com/Andlon/embed-doc-image"
 repository = "https://github.com/Andlon/embed-doc-image"
 categories = ["development-tools", "rust-patterns"]
 keywords = ["documentation", "rustdoc"]
+rust-version = "1.54.0"
 
 [lib]
 proc-macro = true
 
 [dependencies]
-syn = { version="1.0.109", default-features=false, features = ["full", "parsing", "proc-macro", "printing"] }
-quote = "1.0.21"
-proc-macro2 = "1.0.74"
-base64 = "0.13"
+syn = { version = "2.0", default-features = false, features = ["full", "parsing", "proc-macro", "printing"] }
+quote = "1.0"
+proc-macro2 = "1.0"
+base64 = "0.22"
 
 [workspace]
-members = [ "embed-doc-image-showcase" ]
+members = ["embed-doc-image-showcase"]
