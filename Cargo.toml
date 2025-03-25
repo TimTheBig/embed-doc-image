@@ -10,7 +10,7 @@ homepage = "https://github.com/Andlon/embed-doc-image"
 repository = "https://github.com/Andlon/embed-doc-image"
 categories = ["development-tools", "rust-patterns"]
 keywords = ["documentation", "rustdoc"]
-rust-version = "1.54.0"
+rust-version = "1.56.0"
 
 [lib]
 proc-macro = true
