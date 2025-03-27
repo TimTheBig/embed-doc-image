@@ -1,18 +1,12 @@
-//! Showcase for `embed-doc-image`.
+//! Showcase for `doc-image-embed`.
 //!
 // Important: note the blank line of documentation on each side of the image lookup table.
-// The "image lookup table" can be placed anywhere, but we place it here together with the
-// warning if the `doc-images` feature is not enabled.
-#![cfg_attr(feature = "doc-images",
-cfg_attr(all(),
-doc = ::embed_doc_image::embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"),
-doc = ::embed_doc_image::embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"),
-doc = ::embed_doc_image::embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"),
-doc = ::embed_doc_image::embed_image!("corro", "images/corro.svg")))]
-#![cfg_attr(
-    not(feature = "doc-images"),
-    doc = "**Doc images not enabled**. Compile with feature `doc-images` and Rust version >= 1.54 \
-           to enable."
+// The "image lookup table" can be placed anywhere.
+#![cfg_attr(doc,
+    doc = doc_image_embed::embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"),
+    doc = doc_image_embed::embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"),
+    doc = doc_image_embed::embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"),
+    doc = doc_image_embed::embed_image!("corro", "images/corro.svg")
 )]
 //!
 //! This crate contains no functionality, it is merely a demonstration of how to use
@@ -44,7 +38,8 @@ doc = ::embed_doc_image::embed_image!("corro", "images/corro.svg")))]
 //!
 //! ![Dancing Ferris][dancing-ferris]
 //!
-use embed_doc_image::embed_doc_image;
+#[cfg(doc)]
+use doc_image_embed::embed_image;
 
 /// Test that images render in function docs.
 ///
@@ -53,10 +48,10 @@ use embed_doc_image::embed_doc_image;
 /// Some more docs.
 ///
 /// ![Corro][corro] ![Dancing Ferris][dancing-ferris]
-#[embed_doc_image("ferris", "images/rustacean-orig-noshadow-tiny.png")]
-#[embed_doc_image("ferris-gesture", "images/rustacean-flat-gesture-tiny.png")]
-#[embed_doc_image("dancing-ferris", "images/dancing-ferris-tiny.gif")]
-#[embed_doc_image("corro", "images/corro.svg")]
+#[cfg_attr(doc, doc = embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"))]
+#[cfg_attr(doc, doc = embed_image!("corro", "images/corro.svg"))]
 pub fn function_docs_work() {}
 
 /// Test that images render in module docs.
@@ -66,10 +61,10 @@ pub fn function_docs_work() {}
 /// Some more docs.
 ///
 /// ![Corro][corro] ![Dancing Ferris][dancing-ferris]
-#[embed_doc_image("ferris", "images/rustacean-orig-noshadow-tiny.png")]
-#[embed_doc_image("ferris-gesture", "images/rustacean-flat-gesture-tiny.png")]
-#[embed_doc_image("dancing-ferris", "images/dancing-ferris-tiny.gif")]
-#[embed_doc_image("corro", "images/corro.svg")]
+#[cfg_attr(doc, doc = doc_image_embed::embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"))]
+#[cfg_attr(doc, doc = doc_image_embed::embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"))]
+#[cfg_attr(doc, doc = doc_image_embed::embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"))]
+#[cfg_attr(doc, doc = doc_image_embed::embed_image!("corro", "images/corro.svg"))]
 pub mod module_docs_work {}
 
 /// Test that images render in macro docs.
@@ -79,10 +74,10 @@ pub mod module_docs_work {}
 /// Some more docs.
 ///
 /// ![Corro][corro] ![Dancing Ferris][dancing-ferris]
-#[embed_doc_image("ferris", "images/rustacean-orig-noshadow-tiny.png")]
-#[embed_doc_image("ferris-gesture", "images/rustacean-flat-gesture-tiny.png")]
-#[embed_doc_image("dancing-ferris", "images/dancing-ferris-tiny.gif")]
-#[embed_doc_image("corro", "images/corro.svg")]
+#[cfg_attr(doc, doc = embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"))]
+#[cfg_attr(doc, doc = embed_image!("corro", "images/corro.svg"))]
 #[macro_export]
 macro_rules! macro_docs_work {
     () => {};
@@ -95,10 +90,10 @@ macro_rules! macro_docs_work {
 /// Some more docs.
 ///
 /// ![Corro][corro] ![Dancing Ferris][dancing-ferris]
-#[embed_doc_image("ferris", "images/rustacean-orig-noshadow-tiny.png")]
-#[embed_doc_image("ferris-gesture", "images/rustacean-flat-gesture-tiny.png")]
-#[embed_doc_image("dancing-ferris", "images/dancing-ferris-tiny.gif")]
-#[embed_doc_image("corro", "images/corro.svg")]
+#[cfg_attr(doc, doc = embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"))]
+#[cfg_attr(doc, doc = embed_image!("corro", "images/corro.svg"))]
 pub struct StructDocsWork {}
 
 /// Test that images render in trait docs.
@@ -108,10 +103,10 @@ pub struct StructDocsWork {}
 /// Some more docs.
 ///
 /// ![Corro][corro] ![Dancing Ferris][dancing-ferris]
-#[embed_doc_image("ferris", "images/rustacean-orig-noshadow-tiny.png")]
-#[embed_doc_image("ferris-gesture", "images/rustacean-flat-gesture-tiny.png")]
-#[embed_doc_image("dancing-ferris", "images/dancing-ferris-tiny.gif")]
-#[embed_doc_image("corro", "images/corro.svg")]
+#[cfg_attr(doc, doc = embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"))]
+#[cfg_attr(doc, doc = embed_image!("corro", "images/corro.svg"))]
 pub trait TraitDocsWork {}
 
 /// Test that images render in type docs.
@@ -121,8 +116,8 @@ pub trait TraitDocsWork {}
 /// Some more docs.
 ///
 /// ![Corro][corro] ![Dancing Ferris][dancing-ferris]
-#[embed_doc_image("ferris", "images/rustacean-orig-noshadow-tiny.png")]
-#[embed_doc_image("ferris-gesture", "images/rustacean-flat-gesture-tiny.png")]
-#[embed_doc_image("dancing-ferris", "images/dancing-ferris-tiny.gif")]
-#[embed_doc_image("corro", "images/corro.svg")]
+#[cfg_attr(doc, doc = embed_image!("ferris", "images/rustacean-orig-noshadow-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("ferris-gesture", "images/rustacean-flat-gesture-tiny.png"))]
+#[cfg_attr(doc, doc = embed_image!("dancing-ferris", "images/dancing-ferris-tiny.gif"))]
+#[cfg_attr(doc, doc = embed_image!("corro", "images/corro.svg"))]
 pub type TypeAliasDocsWork = f64;

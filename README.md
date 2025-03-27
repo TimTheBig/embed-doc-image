@@ -1,8 +1,11 @@
-# embed-doc-image
+# doc-image-embed
 
-`embed-doc-image` is proc macro crate that facilitates the embedding of images in Rust documentation.
+[![Crates.io](https://img.shields.io/crates/v/doc-image-embed.svg)](https://crates.io/crates/doc-image-embed)
+[![Documentation](https://docs.rs/doc-image-embed/badge.svg)](https://docs.rs/doc-image-embed)
 
-Please see the [documentation](https://docs.rs/embed-doc-image) for motivation, usage instructions and more.
+`doc-image-embed` is proc macro crate that facilitates the embedding of images in Rust documentation.
+
+Please see the [documentation](https://docs.rs/doc-image-embed) for motivation, usage instructions and more.
 
 ## Contributing
 I'm happy to accept contributions in the form of pull requests, bug reports or feature requests.
@@ -12,13 +15,8 @@ discuss whether the proposed changes are appropriate.
 
 ## Acknowledgements
 
-As an inexperienced proc macro hacker, I would not have managed to arrive at this
-solution without the help of several individuals on the Rust Programming Language Community
-Discord server, most notably:
-
-- Yandros [(github.com/danielhenrymantilla)](https://github.com/danielhenrymantilla)
-- Nemo157 [(github.com/Nemo157)](https://github.com/Nemo157)
+A fork of [embed-doc-image](https://github.com/Andlon/embed-doc-image)
 
 ## License
 
-This crate is licensed under the MIT license. See `LICENSE` for details.
+This crate is licensed under the MIT license. See `LICENSE` for full details.

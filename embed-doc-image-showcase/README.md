@@ -1,8 +1,8 @@
 # embed-doc-image-showcase
 
-This crate is a showcase for the [embed-doc-image][embed-doc-image-crates.io] crate.
+This crate is a showcase for the [doc-image-embed][doc-image-embed-crates.io] crate.
 
 Please see the [documentation on docs.rs][showcase-docs] to see it in action.
 
-[embed-doc-image-crates.io]: https://crates.io/crates/embed-doc-image
-[showcase-docs]: https://docs.rs/embed-doc-image-showcase
+[doc-image-embed-crates.io]: https://crates.io/crates/doc-image-embed
+[showcase-docs]: https://docs.rs/doc-image-embed-showcase
