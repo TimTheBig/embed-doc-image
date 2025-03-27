@@ -5,44 +5,22 @@
 //! web-compatible image formats should be supported. Please [file an issue][issue-tracker]
 //! if you have problems. Read on to learn how it works.
 //!
-//! # Showcase
+//! # Usage
+//! #### How to embed images in documentation
 //!
-//! See the [showcase documentation][showcase-docs] for an example with embedded images.
-//!
-//! Please also check out the [source code][showcase-source] for [the showcase crate][showcase]
-//! for a fleshed out example.
-//!
-//! # Motivation
-//!
-//! A picture is worth a thousand words. This oft quoted adage is no less true for technical
-//! documentation. A carefully crafted diagram lets a new user immediately
-//! grasp the high-level architecture of a complex library. Illustrations of geometric conventions
-//! can vastly reduce confusion among users of scientific libraries. Despite the central role
-//! of images in technical documentation, embedding images in Rust documentation in a way that
-//! portably works correctly across local installations and [docs.rs](https://docs.rs) has been a
-//! [longstanding issue of rustdoc][rustdoc-issue].
-//!
-//! This crate represents a carefully crafted solution based on procedural macros that works
-//! around the current limitations of `rustdoc` and enables a practically workable approach to
-//! embedding images in a portable manner.
-//!
-//! # How to embed images in documentation
-//!
-//! First, you'll need to depend on this crate. In `cargo.toml`:
+//! First, add this crate to your `cargo.toml`:
 //!
 //! ```toml
 //! [dependencies]
 //! // Replace x.x with the latest version
-//! embed-doc-image = "x.x"
+//! doc-image-embed = "x.x"
+//! ```
+//! or
+//! ```sh
+//! cargo add doc-image-embed
 //! ```
 //!
-//! What the next step is depends on whether you want to embed images into *inner attribute
-//! documentation* or *outer attribute documentation*. Inner attribute documentation is usually
-//! used to document crate-level or module-level documentation, and typically starts each line with
-//! `//!`. Outer attribute docs are used for most other forms of documentation, such as function
-//! and struct documentation. Outer attribute documentation typically starts each line with `///`.
-//!
-//! In both cases all image paths are relative to the **crate root**.
+//! Note: all image paths are relative to the **crate root**.
 //!
 //! ## Embedding images in outer attribute documentation
 //!
@@ -50,14 +28,15 @@
 //! macros and so on. Let's consider documenting a function and embedding an image into its
 //! documentation:
 //!
-//! ```rust
+//! ```
 //! // Import the attribute macro
-//! use embed_doc_image::embed_image;
+//! use doc_image_embed::embed_image;
 //!
 //! /// Foos the bar.
 //! ///
 //! /// Let's drop an image below this text.
 //! ///
+//! // You still have to use the image
 //! /// ![Alt text goes here][myimagelabel]
 //! ///
 //! /// And another one.
@@ -68,13 +47,9 @@
 //! /// you match the label ("myimagelabel" or "foobaring" in this case) with the label in the
 //! /// below attribute macro.
 //! // Paths are always relative to the **crate root**
-//! # #[doc = embed_image!("myimagelabel", "embed-doc-image-showcase/images/rustacean-flat-gesture-tiny.png")]
-//! # #[doc = embed_image!("foobaring", "embed-doc-image-showcase/images/dancing-ferris-tiny.gif")]
+//! #[cfg_attr(doc, doc = embed_image!("myimagelabel", "embed-doc-image-showcase/images/rustacean-flat-gesture-tiny.png"))]
+//! #[cfg_attr(doc, doc = embed_image!("foobaring", "embed-doc-image-showcase/images/dancing-ferris-tiny.gif"))]
 //! fn foobar() {}
-//! ```
-//! ```ignore
-//! #[doc = embed_image!("myimagelabel", "images/foo.png")]
-//! #[doc = embed_image!("foobaring", "assets/foobaring.jpg")]
 //! ```
 //!
 //! And that's it! If you run `cargo doc`, you should hopefully be able to see your images
@@ -100,28 +75,6 @@
 //! //! ![Alt text goes here][myimagelabel] ![A Foobaring][foobaring]
 //! ```
 //!
-//! Sadly there is currently no way to detect Rust versions in `cfg_attr`. Therefore we must
-//! rely on a feature flag for toggling proper image embedding. We'll need the following in our
-//! `Cargo.toml`:
-//!
-//! ```toml
-//! [features]
-//! doc-images = []
-//!
-//! [package.metadata.docs.rs]
-//! # docs.rs uses a nightly compiler, so by instructing it to use our `doc-images` feature we
-//! # ensure that it will render any images that we may have in inner attribute documentation.
-//! features = ["doc-images"]
-//! ```
-//!
-//! Let's summarize:
-//!
-//! - `docs.rs` will correctly render our documentation with images.
-//! - Locally:
-//!   - for Rust >= 1.54 with `--features doc-images`, the local documentation will
-//!       correctly render images.
-//!
-//!
 //! # How it works
 //!
 //! The crux of the issue is that `rustdoc` does not have a mechanism for tracking locally stored
@@ -142,7 +95,7 @@
 //! [reddit comment from 2017][reddit-comment]. In short, Rustdoc allows images to be provided
 //! inline in the Markdown as `base64` encoded binary blobs in the following way:
 //!
-//! ```rust ignore
+//! ```txt
 //! ![Alt text][myimagelabel]
 //!
 //! [myimagelabel]: data:image/png;base64,BaSe64EnCoDeDdAtA
@@ -164,6 +117,20 @@
 //! Clearly, this is still quite hacky, but it seems like a workable solution until proper support
 //! in `rustdoc` arrives, at which point we may rejoice and abandon this crate to the annals
 //! of history.
+//!
+//! # Motivation
+//!
+//! A picture is worth a thousand words. This oft quoted adage is no less true for technical
+//! documentation. A carefully crafted diagram lets a new user immediately
+//! grasp the high-level architecture of a complex library. Illustrations of geometric conventions
+//! can vastly reduce confusion among users of scientific libraries. Despite the central role
+//! of images in technical documentation, embedding images in Rust documentation in a way that
+//! portably works correctly across local installations and [docs.rs](https://docs.rs) has been a
+//! [longstanding issue of rustdoc][rustdoc-issue].
+//!
+//! This crate represents a carefully crafted solution based on procedural macros that works
+//! around the current limitations of `rustdoc` and enables a practically workable approach to
+//! embedding images in a portable manner.
 //!
 //! # Acknowledgements
 //!

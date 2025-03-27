@@ -1,6 +1,6 @@
 [package]
 name = "doc-image-embed"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Andreas Longva", "TimTheBig"]
 edition = "2021"
 description = "Embed images in Rust documentation"
